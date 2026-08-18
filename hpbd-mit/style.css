@@ -1,0 +1,576 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Plus+Jakarta+Sans:wght@500;700&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Fredoka', 'Plus Jakarta Sans', sans-serif;
+}
+
+body {
+    background: linear-gradient(180deg, #eef6ff 0%, #d2e4ff 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow: hidden;
+    position: relative;
+}
+
+/* HACHIWARE BÁNH NGỌT LƠ LỬNG TRÔI NỀN */
+.floating-cake {
+    position: fixed;
+    width: clamp(75px, 18vw, 105px);
+    height: auto;
+    z-index: 0;
+    opacity: 0.88;
+    pointer-events: none;
+    filter: drop-shadow(0 8px 18px rgba(147, 197, 253, 0.5));
+}
+
+.cake-1 { top: 6%; left: 6%; animation: floatDrift1 6s ease-in-out infinite alternate; }
+.cake-2 { top: 8%; right: 6%; animation: floatDrift2 7s ease-in-out infinite alternate; }
+.cake-3 { bottom: 10%; left: 5%; animation: floatDrift2 6.5s ease-in-out infinite alternate-reverse; }
+.cake-4 { bottom: 8%; right: 5%; animation: floatDrift1 7.5s ease-in-out infinite alternate-reverse; }
+.cake-5 { top: 45%; left: 2%; animation: floatDrift1 5.5s ease-in-out infinite alternate; width: clamp(60px, 14vw, 85px); }
+
+@keyframes floatDrift1 {
+    0% { transform: translate(0, 0) rotate(-8deg); }
+    50% { transform: translate(25px, -30px) rotate(6deg); }
+    100% { transform: translate(-15px, -50px) rotate(-4deg); }
+}
+
+@keyframes floatDrift2 {
+    0% { transform: translate(0, 0) rotate(10deg); }
+    50% { transform: translate(-30px, -25px) rotate(-8deg); }
+    100% { transform: translate(15px, -55px) rotate(5deg); }
+}
+
+/* Logic Ẩn / Hiện Slide */
+.slide {
+    display: none;
+    animation: fadeIn 0.35s ease;
+}
+
+.slide.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.98); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* GLASS CARD CHUẨN */
+.card {
+    background: rgba(255, 255, 255, 0.93);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    width: 88vw;
+    max-width: 410px;
+    padding: 28px 20px;
+    border-radius: 32px;
+    border: 2px solid #ffffff;
+    box-shadow: 0 16px 40px rgba(147, 197, 253, 0.38);
+    text-align: center;
+    z-index: 1;
+    position: relative;
+    margin: auto;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* MỞ RỘNG KHUNG KHI VÀO SLIDE 2 */
+.card.wide-mode, .card:has(#slide-2.active) {
+    max-width: 900px;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    padding: 0;
+}
+
+.title {
+    color: #2563eb;
+    font-size: clamp(1.8rem, 6vw, 2.3rem);
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.kaomoji {
+    font-size: 1.1rem;
+    color: #3b82f6;
+    margin: 8px 0;
+    font-weight: 600;
+}
+
+.sub-text, .question-text {
+    font-size: 0.95rem;
+    color: #475569;
+    margin-bottom: 18px;
+    font-weight: 500;
+}
+
+/* AVATAR */
+.avatar-box {
+    width: clamp(110px, 30vw, 130px);
+    height: clamp(110px, 30vw, 130px);
+    margin: 12px auto;
+    background: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 10px 28px rgba(147, 197, 253, 0.45),
+                0 0 0 8px rgba(219, 234, 254, 0.7);
+    overflow: hidden;
+}
+
+.fairy-img {
+    width: 90%;
+    height: 90%;
+    object-fit: contain;
+}
+
+/* NÚT BẤM */
+.btn-group {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.btn {
+    background: #3b82f6;
+    color: #ffffff;
+    border: none;
+    padding: 13px 26px;
+    border-radius: 99px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(59, 130, 246, 0.35);
+    transition: all 0.2s ease;
+    display: inline-block;
+    width: auto;
+    min-width: 140px;
+}
+
+.btn:hover {
+    background: #2563eb;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(37, 99, 235, 0.45);
+}
+
+.btn-secondary {
+    background: #eff6ff;
+    color: #2563eb;
+    border: 1.5px solid #bfdbfe;
+}
+
+/* ALBUM POLAROID (KHẮC PHỤC HOÀN TOÀN LỖI BÓNG TỎA NÊN BỊ CẮT) */
+.photo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    width: 100%;
+    margin: 5px 0 15px 0;
+    max-height: 72vh;
+    overflow-y: auto;
+    /* PADDING RỘNG ĐỂ BÓNG XANH TỎA ĐỀU KHÔNG CHẠM VIỀN CUỘN */
+    padding: 35px 45px; 
+    /* ẨN THANH CUỘN MẶC ĐỊNH */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.photo-grid::-webkit-scrollbar {
+    display: none;
+}
+
+.photo-item {
+    background: #ffffff;
+    padding: 10px 10px 26px 10px;
+    border-radius: 14px;
+    /* BÓNG TỎA XANH MỀM MẠI NGUYÊN VẸN */
+    box-shadow: 0 10px 30px rgba(59, 130, 246, 0.28);
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    cursor: pointer;
+    position: relative;
+}
+
+/* Độ nghiêng ngẫu nhiên */
+.photo-item:nth-child(6n+1) { transform: rotate(-2.5deg); }
+.photo-item:nth-child(6n+2) { transform: rotate(2deg); }
+.photo-item:nth-child(6n+3) { transform: rotate(-1.5deg); }
+.photo-item:nth-child(6n+4) { transform: rotate(2.5deg); }
+.photo-item:nth-child(6n+5) { transform: rotate(-1deg); }
+.photo-item:nth-child(6n+6) { transform: rotate(1.5deg); }
+
+/* KHI HOVER: NỔI LÊN TRÊN VÀ BỪNG SÁNG TOÀN BỘ KHÔNG BỊ CẮT MÉP */
+.photo-item:hover {
+    transform: translateY(-8px) scale(1.08) rotate(0deg) !important;
+    z-index: 10;
+    box-shadow: 0 20px 45px rgba(37, 99, 235, 0.42);
+}
+
+.photo-item img {
+    width: 100%;
+    height: 148px;
+    object-fit: cover;
+    border-radius: 8px;
+    display: block;
+}
+
+/* THẺ NHẠC */
+.music-card {
+    background: #f0f9ff;
+    border: 1.5px solid #bae6fd;
+    padding: 16px;
+    border-radius: 24px;
+    margin-bottom: 15px;
+}
+
+.album-cover {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 3px solid #ffffff;
+    box-shadow: 0 6px 18px rgba(59, 130, 246, 0.25);
+    animation: spin 10s linear infinite;
+    margin-bottom: 10px;
+}
+
+@keyframes spin {
+    100% { transform: rotate(360deg); }
+}
+
+.song-title {
+    font-weight: 600;
+    color: #1e3a8a;
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+}
+
+audio {
+    width: 100%;
+    height: 36px;
+    border-radius: 99px;
+}
+
+/* KHUNG THƯ SLIDE 5 */
+.letter-box {
+    background: #f0f9ff;
+    border: 1.5px solid #bae6fd;
+    padding: 16px;
+    border-radius: 20px;
+    text-align: left;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #1e3a8a;
+    margin-bottom: 15px;
+}
+
+.letter-box p {
+    margin-bottom: 8px;
+}
+
+/* CREDIT */
+.credit {
+    position: absolute;
+    bottom: -26px;
+    right: 10px;
+    font-size: 0.8rem;
+    color: #3b82f6;
+    font-weight: 600;
+}
+
+/* MODAL PHÓNG TO */
+.modal {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    background-color: rgba(15, 23, 42, 0.75);
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+}
+
+.modal.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-content {
+    max-width: 90%;
+    max-height: 80vh;
+    border-radius: 20px;
+    transform: scale(0.85);
+    transition: transform 0.25s ease;
+}
+
+.modal.show .modal-content {
+    transform: scale(1);
+}
+
+.close-modal {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    color: #ffffff;
+    font-size: 35px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* TRÁI TIM BAY */
+.heart {
+    position: fixed;
+    bottom: -30px;
+    user-select: none;
+    pointer-events: none;
+    animation: riseUp linear forwards;
+    z-index: 0;
+}
+
+@keyframes riseUp {
+    0% { transform: translateY(0) scale(0.8); opacity: 0.85; }
+    100% { transform: translateY(-110vh) scale(1.25); opacity: 0; }
+}
+
+/* MÀN HÌNH ĐIỆN THOẠI */
+@media (max-width: 600px) {
+    .photo-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+        padding: 20px 15px;
+    }
+    .photo-item img {
+        height: 115px;
+    }
+    .floating-cake {
+        opacity: 0.55;
+    }
+}
+/* ================= SLIDE 3: LỌ KẸO CỦA MÍT ================= */
+.jar-container {
+    display: flex;
+    justify-content: center;
+    margin: 15px 0;
+    cursor: pointer;
+}
+
+.candy-jar {
+    width: 120px;
+    height: 140px;
+    position: relative;
+    animation: jarSway 3.5s ease-in-out infinite alternate;
+    transition: transform 0.2s ease;
+}
+
+.candy-jar:hover {
+    transform: scale(1.08) rotate(3deg);
+}
+
+/* Nắp lọ */
+.jar-lid {
+    width: 80px;
+    height: 20px;
+    background: #bfdbfe;
+    border: 2px solid #ffffff;
+    border-radius: 12px;
+    margin: 0 auto;
+    box-shadow: 0 4px 10px rgba(147, 197, 253, 0.4);
+}
+
+/* Thân lọ thủy tinh */
+.jar-body {
+    width: 110px;
+    height: 115px;
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 3px solid rgba(255, 255, 255, 0.85);
+    border-radius: 20px 20px 35px 35px;
+    margin: -4px auto 0;
+    position: relative;
+    box-shadow: 0 10px 25px rgba(59, 130, 246, 0.25),
+                inset 0 0 15px rgba(255, 255, 255, 0.8);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    gap: 6px;
+    padding: 10px;
+    overflow: hidden;
+}
+
+/* Kẹo bên trong lọ */
+.candy-item {
+    font-size: 1.4rem;
+    animation: candyBounce 2s ease-in-out infinite alternate;
+    user-select: none;
+}
+
+.c1 { animation-delay: 0.1s; }
+.c2 { animation-delay: 0.3s; }
+.c3 { animation-delay: 0.5s; }
+.c4 { animation-delay: 0.2s; }
+.c5 { animation-delay: 0.6s; }
+.c6 { animation-delay: 0.4s; }
+
+@keyframes jarSway {
+    0% { transform: rotate(-4deg); }
+    100% { transform: rotate(4deg); }
+}
+
+@keyframes candyBounce {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-5px); }
+}
+
+/* Khung hiển thị tin nhắn ngọt ngào */
+.sweet-note-card {
+    background: #ffffff;
+    border: 2px solid #bfdbfe;
+    padding: 16px 20px;
+    border-radius: 22px;
+    box-shadow: 0 8px 24px rgba(147, 197, 253, 0.3);
+    min-height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+}
+
+#sweetMessage {
+    color: #1e3a8a;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.5;
+    animation: popText 0.35s ease;
+}
+
+@keyframes popText {
+    0% { opacity: 0; transform: scale(0.9); }
+    100% { opacity: 1; transform: scale(1); }
+}
+/* ====== TẠO TIM TẠI VỊ TRÍ CHẠM NGÓN TAY ====== */
+.touch-heart {
+    position: fixed;
+    pointer-events: none; /* Không làm vướng click */
+    z-index: 9999;
+    font-size: 20px;
+    animation: touchFloat 1s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    user-select: none;
+}
+
+@keyframes touchFloat {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(0.6) rotate(0deg);
+    }
+    50% {
+        transform: translate(-50%, -80px) scale(1.3) rotate(15deg);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -120px) scale(0.8) rotate(-15deg);
+    }
+}
+/* Chỉnh riêng cho Hachiware ở Slide 4 */
+#slide-4 .avatar-box {
+    background: transparent !important; /* Xóa nền trắng tròn */
+    border-radius: 0 !important;        /* Bỏ khung tròn */
+    overflow: visible !important;       /* Không bị giới hạn viền cắt */
+    width: auto !important;
+    height: auto !important;
+    margin: 10px auto 20px !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+#slide-4 .avatar {
+    width: 130px !important;            /* Chỉnh độ to/nhỏ của Hachiware ở đây (ví dụ: 120px - 140px) */
+    height: auto !important;
+    object-fit: contain !important;
+    border-radius: 0 !important;
+    
+    /* Hiệu ứng phát sáng xanh mờ mờ ôm theo viền con Hachiware */
+    filter: drop-shadow(0 0 12px rgba(135, 206, 250, 0.8)) 
+            drop-shadow(0 0 22px rgba(100, 180, 255, 0.5));
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+/* Hiệu ứng khi rê chuột vào con Hachiware phát sáng lung linh hơn */
+#slide-4 .avatar:hover {
+    transform: scale(1.08);
+    filter: drop-shadow(0 0 18px rgba(135, 206, 250, 1)) 
+            drop-shadow(0 0 30px rgba(100, 180, 255, 0.8));
+}
+/* Tối ưu hiệu ứng phát sáng cho chuỗi biểu cảm Hachiware Slide 4 */
+.hachi-emotion {
+    width: 125px !important;
+    height: auto !important;
+    object-fit: contain !important;
+    border-radius: 0 !important;
+    filter: drop-shadow(0 0 12px rgba(135, 206, 250, 0.8)) 
+            drop-shadow(0 0 22px rgba(100, 180, 255, 0.5));
+    transition: transform 0.3s ease;
+}
+
+.hachi-emotion:hover {
+    transform: scale(1.08);
+}
+/* ================= XÓA BỎ HOÀN TOÀN KHUNG TRÒN VÀ TẠO EFFECT STICKER ================= */
+
+/* 1. Xóa bỏ hình tròn, bóng tròn và viền trắng của avatar-box */
+.avatar-box {
+    width: auto !important;
+    height: auto !important;
+    min-width: unset !important;
+    min-height: unset !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+    margin: 10px auto 18px auto !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+/* 2. Cấu hình ảnh nhân vật Hachiware thành dạng Sticker nổi có bóng sáng xanh */
+.avatar-box img, 
+.fairy-img, 
+.hachi-emotion {
+    width: clamp(120px, 32vw, 145px) !important;
+    height: auto !important;
+    max-height: 150px !important;
+    object-fit: contain !important;
+    border-radius: 18px !important; /* Bo nhẹ góc ảnh để nhìn mềm mại */
+    
+    /* Hiệu ứng tỏa sáng xanh mờ ôm nhẹ quanh nhân vật */
+    filter: drop-shadow(0 8px 16px rgba(147, 197, 253, 0.6))
+            drop-shadow(0 0 12px rgba(59, 130, 246, 0.35)) !important;
+    
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease !important;
+}
+
+/* 3. Hiệu ứng nhún nhảy nhẹ khi rê chuột / chạm vào nhân vật */
+.avatar-box img:hover, 
+.fairy-img:hover, 
+.hachi-emotion:hover {
+    transform: scale(1.08) rotate(2deg) !important;
+    filter: drop-shadow(0 12px 22px rgba(147, 197, 253, 0.8))
+            drop-shadow(0 0 18px rgba(37, 99, 235, 0.5)) !important;
+}
