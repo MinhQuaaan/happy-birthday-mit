@@ -138,6 +138,7 @@ body {
     display: flex;
     gap: 10px;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
 .btn {
@@ -283,6 +284,175 @@ audio {
     font-size: 0.8rem;
     color: #3b82f6;
     font-weight: 600;
+}
+
+/* ================= NÚT BẬT/TẮT NHẠC ================= */
+.mute-toggle {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 50;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 6px 16px rgba(59, 130, 246, 0.3);
+    font-size: 1.15rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+}
+
+.mute-toggle:hover {
+    transform: scale(1.08);
+}
+
+/* ================= CHẤM TIẾN TRÌNH ================= */
+.progress-dots {
+    position: fixed;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 50;
+    display: flex;
+    gap: 7px;
+    background: rgba(255, 255, 255, 0.85);
+    padding: 7px 12px;
+    border-radius: 99px;
+    box-shadow: 0 6px 16px rgba(59, 130, 246, 0.22);
+}
+
+.progress-dots .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #dbeafe;
+    transition: all 0.25s ease;
+}
+
+.progress-dots .dot.done {
+    background: #93c5fd;
+}
+
+.progress-dots .dot.active {
+    background: #3b82f6;
+    width: 18px;
+    border-radius: 99px;
+}
+
+/* ================= ĐẾM SỐ NGÀY BÊN NHAU ================= */
+.day-counter-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #f0f9ff;
+    border: 1.5px solid #bae6fd;
+    border-radius: 24px;
+    padding: 24px 16px;
+    margin: 14px 0;
+}
+
+.day-counter-number {
+    font-size: clamp(2.4rem, 12vw, 3.2rem);
+    font-weight: 700;
+    color: #2563eb;
+    line-height: 1.1;
+}
+
+.day-counter-label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1e3a8a;
+    margin-top: 4px;
+}
+
+/* ================= ĐỐ VUI (QUIZ) ================= */
+.quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 10px 0 6px;
+}
+
+.quiz-option {
+    background: #eff6ff;
+    color: #1e3a8a;
+    border: 1.5px solid #bfdbfe;
+    padding: 12px 16px;
+    border-radius: 16px;
+    font-weight: 600;
+    font-size: 0.92rem;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s ease;
+}
+
+.quiz-option:hover {
+    background: #dbeafe;
+    transform: translateY(-1px);
+}
+
+.quiz-option.correct {
+    background: #dcfce7;
+    border-color: #86efac;
+    color: #166534;
+}
+
+.quiz-option.wrong {
+    background: #fee2e2;
+    border-color: #fca5a5;
+    color: #991b1b;
+}
+
+.quiz-feedback {
+    min-height: 22px;
+    font-weight: 600;
+    font-size: 0.92rem;
+    color: #2563eb;
+    margin-bottom: 10px;
+}
+
+/* ================= HIỆU ỨNG GÕ CHỮ Ở LÁ THƯ ================= */
+#letterTyped p {
+    margin-bottom: 8px;
+}
+
+#letterTyped .typing-line::after {
+    content: '|';
+    display: inline-block;
+    margin-left: 2px;
+    animation: blinkCursor 0.8s step-end infinite;
+    color: #2563eb;
+}
+
+@keyframes blinkCursor {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+.btn-skip {
+    display: block;
+    margin: 0 auto 10px;
+    min-width: unset;
+    padding: 8px 18px;
+    font-size: 0.85rem;
+}
+
+/* ================= CONFETTI (SLIDE THƯ) ================= */
+.confetti-piece {
+    position: fixed;
+    top: -20px;
+    z-index: 40;
+    pointer-events: none;
+    animation: confettiFall linear forwards;
+}
+
+@keyframes confettiFall {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(540deg); opacity: 0.9; }
 }
 
 /* MODAL PHÓNG TO */
@@ -611,4 +781,27 @@ audio {
     transform: scale(1.08) rotate(2deg) !important;
     filter: drop-shadow(0 12px 22px rgba(147, 197, 253, 0.8))
             drop-shadow(0 0 18px rgba(37, 99, 235, 0.5)) !important;
+}
+
+/* ================= PARTICLE EFFECT ================= */
+.particle {
+    pointer-events: none;
+    animation: floatUp 3s ease-out forwards;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Reply section styling - already using sweet-note-card but ensure textarea looks good */
+#replyInput {
+    resize: vertical;
+    font-family: inherit;
 }
