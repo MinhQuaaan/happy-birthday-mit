@@ -17,6 +17,20 @@
 
     <div class="bg-hearts" id="bgHearts"></div>
 
+    <!-- Nút bật/tắt nhạc nền -->
+    <button id="muteToggle" class="mute-toggle" onclick="toggleMusic()" aria-label="Bật/tắt nhạc nền">🔊</button>
+
+    <!-- Thanh chấm tiến trình -->
+    <div class="progress-dots" id="progressDots">
+        <span class="dot" data-step="1"></span>
+        <span class="dot" data-step="2"></span>
+        <span class="dot" data-step="3"></span>
+        <span class="dot" data-step="4"></span>
+        <span class="dot" data-step="5"></span>
+        <span class="dot" data-step="6"></span>
+        <span class="dot" data-step="7"></span>
+    </div>
+
     <div class="card">
         <!-- SLIDE 1: WELCOME -->
         <div class="slide active" id="slide-1">
@@ -26,7 +40,40 @@
             </div>
             <p class="kaomoji">(o◕‿◕o)</p>
             <p class="sub-text">Ấn vô nút bên dưới nè!(つ◔◡◔)つ💙</p>
-            <button class="btn" onclick="nextSlide(2)">Típ nèe!! ^w^ ➔</button>
+            <button class="btn" onclick="nextSlide('days')">Típ nèe!! ^w^ ➔</button>
+        </div>
+
+        <!-- SLIDE DAYS: ĐẾM SỐ NGÀY BÊN NHAU -->
+        <div class="slide" id="slide-days">
+            <h2 class="title">Bọn mình bên nhau được... 💙</h2>
+            <div class="day-counter-box">
+                <span class="day-counter-number" id="dayCounterNumber">0</span>
+                <span class="day-counter-label">ngày rồi đó nè! 🥹</span>
+            </div>
+            <p class="sub-text" id="dayCounterSub"></p>
+            <div class="btn-group">
+                <button class="btn btn-secondary" onclick="nextSlide(1)">◀ Quay lại</button>
+                <button class="btn" onclick="nextSlide('quiz')">Tiếp ➔</button>
+            </div>
+        </div>
+
+        <!-- SLIDE QUIZ: ĐỐ VUI NHỎ -->
+        <div class="slide" id="slide-quiz">
+            <h2 class="title">Đố Mít nè 🤔💭</h2>
+            <p class="sub-text">
+                Lần đầu tiên tụi mình nói chuyện với nhau là nhờ vào đâu? 👀
+            </p>
+            <div class="quiz-options" id="quizOptions">
+                <button class="quiz-option" onclick="checkQuizAnswer(this, false)">Vô tình quẹt phải nhau</button>
+                <button class="quiz-option" onclick="checkQuizAnswer(this, true)">Chung nhóm/lớp học</button>
+                <button class="quiz-option" onclick="checkQuizAnswer(this, false)">Bạn bè giới thiệu</button>
+                <button class="quiz-option" onclick="checkQuizAnswer(this, false)">Chơi game chung</button>
+            </div>
+            <p class="quiz-feedback" id="quizFeedback"></p>
+            <div class="btn-group">
+                <button class="btn btn-secondary" onclick="nextSlide('days')">◀ Quay lại</button>
+                <button class="btn" onclick="nextSlide(2)">Tiếp ➔</button>
+            </div>
         </div>
 
         <!-- SLIDE 2: MEMORIES -->
@@ -46,7 +93,10 @@
                 <div class="photo-item"><img src="assets/pic11.jpg" alt="Memory 11"></div>
                 <div class="photo-item"><img src="assets/pic12.jpg" alt="Memory 12"></div>
             </div>
-            <button class="btn" onclick="nextSlide(3)">Next ➔</button>
+            <div class="btn-group">
+                <button class="btn btn-secondary" onclick="nextSlide('quiz')">◀ Quay lại</button>
+                <button class="btn" onclick="nextSlide(3)">Next ➔</button>
+            </div>
         </div>
 
         <div id="slide-3" class="slide">
@@ -72,6 +122,7 @@
     </div>
 
     <div class="btn-group" style="margin-top: 15px;">
+        <button class="btn btn-secondary" onclick="nextSlide(2)">◀ Quay lại</button>
         <button class="btn" onclick="popCandyMessage()">Rút thêm kẹo 🍭</button>
         <button class="btn btn-secondary" onclick="nextSlide(4)">Slide tiếp ➔</button>
     </div>
@@ -143,12 +194,21 @@
         <!-- SLIDE 5: LETTER CONTENT -->
         <div class="slide" id="slide-5">
             <h2 class="title">💌 Happy Birthday Mít!!</h2>
-            <div class="letter-box">
-                <p>Chúc mừng sinh nhật Mít! 🎂✨</p>
-                <p>Cảm ơn em vì đã xuất hiện và mang lại thật nhiều niềm vui. Chúc Mít tuổi mới luôn xinh đẹp, vui vẻ, hạnh phúc và luôn mim cười thật nhiều nhé!</p>
-                <p>Mong rằng mọi điều tuyệt vời nhất sẽ đến với em trong năm nay. Enjoy your special day! 💙</p>
+            <div class="letter-box" id="letterBox">
+                <div id="letterTyped"></div>
             </div>
+            <button class="btn btn-secondary btn-skip" id="skipTypingBtn" onclick="skipTyping()">Hiện ngay ⏩</button>
             <button class="btn" onclick="nextSlide(1)">Mở lại từ đầu 🔄</button>
+
+            <!-- Trả lời lá thư -->
+            <div id="replySection" style="margin-top: 20px; display: none;">
+                <div class="sweet-note-card" id="replyCard">
+                    <p id="replyPlaceholder">Gửi trả lời cho anh nè...</p>
+                    <textarea id="replyInput" placeholder="Nhập lời nhắn của bạn tại đây..." rows="3" style="width: 100%; border: 1px solid #bfdbfe; border-radius: 12px; padding: 8px; margin-top: 8px; font-family: inherit;"></textarea>
+                    <button class="btn" onclick="sendReply()" style="margin-top: 10px; width: 100%;">Gửi resposta 💌</button>
+                </div>
+                <div id="replyStatus" style="margin-top: 10px; font-size: 0.9rem; color: #166534; min-height: 22px;"></div>
+            </div>
         </div>
 
         <!-- Dòng Credit -->
